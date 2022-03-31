@@ -1,0 +1,17 @@
+{
+    "name": "kch/categoryspecial",
+    "authors": [
+        {
+            "name": "kch",
+            "email": "biuro@kch.software"
+        }
+    ],
+    "autoload" : {
+        "psr-4": {
+            "PrestaShop\\Module\\Categoryspecial\\": "src/Controller/"
+        },
+        "classmap": ["categoryspecial.php"],
+        "config": {"prepend-autoloader" : false},
+        "type"  : "prestashop-module"
+    }
+}

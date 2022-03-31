@@ -1,0 +1,7 @@
+admin_category_special:
+  path: /categoryspecial/toggle/{categoryId}
+  methods: [POST]
+  defaults:
+    _controller: 'PrestaShop\Module\Categoryspecial\CategoryspecialController::toggleSpecialAction'
+    _legacy_controller: Categoryspecial
+    _legacy_link: Categoryspecial
