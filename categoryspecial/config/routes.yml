@@ -5,3 +5,8 @@ admin_category_special:
     _controller: 'PrestaShop\Module\Categoryspecial\CategoryspecialController::toggleSpecialAction'
     _legacy_controller: Categoryspecial
     _legacy_link: Categoryspecial
+    _legacy_parameters:
+      id_category: categoryId
+    categoryId: null
+  requirements:
+    categoryId: '\d+'
