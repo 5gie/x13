@@ -6,10 +6,15 @@ class CategoryController extends CategoryControllerCore {
     {
         parent::init();
 
-        if($this->category->is_special && !$this->checkSpecialCategoryAccess()){
+        if ($this->category->is_special && !$this->checkSpecialCategoryAccess()) {
 
-            Tools::redirect('index.php?controller=404');
+            $cms = new CMS((int) Configuration::get('CATEGORYSPECIAL_ID_CMS'));
 
+            if ($cms->id) {
+                Tools::redirect($this->context->link->getCMSLink($cms));
+            } else {
+                Tools::redirect('index.php?controller=404');
+            }
         }
 
     }

@@ -112,6 +112,8 @@ class helloworld extends Module
                     $output = '<div class="alert alert-danger conf error">'
                         . $this->trans('An error occurred on saving.', [], 'Admin.Notifications.Error')
                         . '</div>';
+                } else {
+                    $output = $this->displayConfirmation($this->trans('Zaktualizowano pomyślnie', [], 'Admin.Notifications.Success'));
                 }
 
             }

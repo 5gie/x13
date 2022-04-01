@@ -149,4 +149,118 @@ class categoryspecial extends Module
         }
     }
 
+
+    public function getContent()
+    {
+        $output = '';
+
+        if (Tools::isSubmit('saveCategorySpecial')) {
+            if (strlen(Tools::getValue('id_cms')) > 250 || !Validate::isInt(Tools::getValue('id_cms'))) {
+                $output = $this->displayError($this->trans('Wprowadzono niepoprawną wartość', [], 'Admin.Notifications.Error'));
+            } else {
+
+                $update = $this->processSave();
+    
+                if (!$update) {
+                    $output = '<div class="alert alert-danger conf error">'
+                    . $this->trans('An error occurred on saving.', [], 'Admin.Notifications.Error')
+                    . '</div>';
+                } else{
+                    $output = $this->displayConfirmation($this->trans('Zaktualizowano pomyślnie', [], 'Admin.Notifications.Success'));
+                }
+            }
+
+        }
+
+        return $output . $this->renderForm();
+    }
+
+    public function processSave()
+    {
+        return Configuration::updateValue('CATEGORYSPECIAL_ID_CMS', Tools::getValue('id_cms'));
+    }
+
+    protected function renderForm()
+    {
+        $default_lang = (int) Configuration::get('PS_LANG_DEFAULT');
+
+        $fields_form = [
+            'tinymce' => true,
+            'legend' => [
+                'title' => $this->trans('Settings', [], 'Modules.HelloWorld.Admin'),
+            ],
+            'input' => [
+            
+                'id_cms' => [
+                    'type' => 'select',
+                    'label' => $this->trans('Strona cms', [], 'Modules.HelloWorld.Admin'),
+                    'name' => 'id_cms',
+                    'options' => [
+                        // 'query' => array_map(function($cms){
+                        //     return [
+                        //         'id' => $cms['id_cms'],
+                        //         'name' => $cms['meta_title']
+                        //     ];
+                        // }, CMS::listCms()),
+                        'query' => CMS::listCms(null, false, false),
+                        'id' => 'id_cms',
+                        'name' => 'meta_title',
+                    ],
+                ]
+            ],
+            'submit' => [
+                'title' => $this->trans('Save', [], 'Admin.Actions'),
+            ],
+            'buttons' => [
+                [
+                    'href' => AdminController::$currentIndex . '&configure=' . $this->name . '&token=' . Tools::getAdminTokenLite('AdminModules'),
+                    'title' => $this->trans('Back to list', [], 'Admin.Actions'),
+                    'icon' => 'process-icon-back',
+                ],
+            ],
+        ];
+
+        $helper = new HelperForm();
+        $helper->module = $this;
+        $helper->name_controller = 'categoryspecial';
+        $helper->identifier = $this->identifier;
+        $helper->token = Tools::getAdminTokenLite('AdminModules');
+        // foreach (Language::getLanguages(false) as $lang) {
+        //     $helper->languages[] = [
+        //         'id_lang' => $lang['id_lang'],
+        //         'iso_code' => $lang['iso_code'],
+        //         'name' => $lang['name'],
+        //         'is_default' => ($default_lang == $lang['id_lang'] ? 1 : 0),
+        //     ];
+        // }
+
+        $helper->currentIndex = AdminController::$currentIndex . '&configure=' . $this->name;
+        $helper->default_form_language = $default_lang;
+        $helper->allow_employee_form_lang = $default_lang;
+        $helper->toolbar_scroll = true;
+        $helper->title = $this->displayName;
+        $helper->submit_action = 'saveCategorySpecial';
+
+        $helper->fields_value['id_cms'] = Configuration::get('CATEGORYSPECIAL_ID_CMS');
+
+        return $helper->generateForm([['form' => $fields_form]]);
+    }
+
+    // public function getFormValues()
+    // {
+    //     $fields_value = [];
+    //     $idShop = $this->context->shop->id;
+    //     $idHello = Hello::getHelloIdByShop($idShop);
+
+    //     Shop::setContext(Shop::CONTEXT_SHOP, $idShop);
+    //     $hello = new Hello((int) $idHello);
+
+    //     $fields_value['title'] = $hello->title;
+    //     $fields_value['text'] = $hello->text;
+    //     $fields_value['link_rewrite'] = $hello->link_rewrite;
+    //     $fields_value['id_hello'] = $idHello;
+
+    //     return $fields_value;
+    // }
+
 }
