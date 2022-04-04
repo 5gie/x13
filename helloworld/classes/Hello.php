@@ -48,6 +48,12 @@ class Hello extends ObjectModel
         return Db::getInstance()->getRow($sql);
     }
 
+    public static function getHelloByLang($id_lang)
+    {
+        $sql = 'SELECT title, text FROM `' . _DB_PREFIX_ . 'hello_lang` WHERE id_lang = "'. $id_lang.'"';
+        return Db::getInstance()->getRow($sql);
+    }
+
     public static function getHelloIdByShop($shopId)
     {
         $sql = 'SELECT i.`id_hello` FROM `' . _DB_PREFIX_ . 'hello` i

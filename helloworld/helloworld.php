@@ -112,8 +112,6 @@ class helloworld extends Module
                     $output = '<div class="alert alert-danger conf error">'
                         . $this->trans('An error occurred on saving.', [], 'Admin.Notifications.Error')
                         . '</div>';
-                } else {
-                    $output = $this->displayConfirmation($this->trans('Zaktualizowano pomyślnie', [], 'Admin.Notifications.Success'));
                 }
 
             }
@@ -306,11 +304,10 @@ class helloworld extends Module
         if(empty($link_rewrite)) return [];
 
         $page = array(
-            'controller' =>  'Page',
+            'controller' =>  'page',
             'rule' => $link_rewrite,
             'keywords' => array(),
             'params' => array(
-                'link_rewrite' => $link_rewrite,
                 'fc' => 'module',
                 'module' => $this->name
             )

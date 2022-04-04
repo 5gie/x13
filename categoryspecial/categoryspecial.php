@@ -78,7 +78,7 @@ class categoryspecial extends Module
         foreach ($queryBuilders as $queryBuilder) {
             $queryBuilder
                 ->addSelect(
-                    'is_special',
+                    'is_special'
                 );
         }
     }
