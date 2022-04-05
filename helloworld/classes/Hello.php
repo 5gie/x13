@@ -35,9 +35,9 @@ class Hello extends ObjectModel
 
     public static function getHelloLinkRewrite($langId, $shopId)
     {
-        $sql = 'SELECT ish.`link_rewrite` FROM `' . _DB_PREFIX_ . 'hello` i
-		LEFT JOIN `' . _DB_PREFIX_ . 'hello_lang` ish ON ish.`id_hello` = i.`id_hello` AND ish.`id_lang` = '. (int) $langId . '
-		WHERE ish.`id_shop` = ' . (int) $shopId;
+        $sql = 'SELECT hl.`link_rewrite` FROM `' . _DB_PREFIX_ . 'hello` h
+		LEFT JOIN `' . _DB_PREFIX_ . 'hello_lang` hl ON hl.`id_hello` = h.`id_hello` AND hl.`id_lang` = '. (int) $langId . '
+		WHERE hl.`id_shop` = ' . (int) $shopId;
 
         return Db::getInstance()->getValue($sql);
     }
@@ -61,5 +61,14 @@ class Hello extends ObjectModel
 		WHERE ish.`id_shop` = ' . (int) $shopId;
 
         return Db::getInstance()->getValue($sql);
+    }
+
+    public static function getHelloByShop($shopId)
+    {
+        $sql = 'SELECT * FROM `' . _DB_PREFIX_ . 'hello` i
+		LEFT JOIN `' . _DB_PREFIX_ . 'hello_lang` ish ON ish.`id_hello` = i.`id_hello`
+		WHERE ish.`id_shop` = ' . (int) $shopId;
+
+        return Db::getInstance()->executeS($sql);
     }
 }

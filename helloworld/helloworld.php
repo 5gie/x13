@@ -299,24 +299,25 @@ class helloworld extends Module
     public function hookModuleRoutes(array $params)
     {
 
-        $link_rewrite = Hello::getHelloLinkRewrite($this->context->language->id, $this->context->shop->id);
+        $hello = Hello::getHelloByShop($this->context->shop->id);
 
-        if(empty($link_rewrite)) return [];
+        $output = [];
 
-        $page = array(
-            'controller' =>  'page',
-            'rule' => $link_rewrite,
-            'keywords' => array(),
-            'params' => array(
-                'fc' => 'module',
-                'module' => $this->name
-            )
-        );
+        if(!empty($hello)) foreach($hello as $page){
 
-        $return['module-' . $this->name . '-page'] = $page;
+            $output['module-'.$this->name.'-page-'.$page['id_lang']] = [
+                'controller' =>  'page',
+                'rule' => $page['link_rewrite'],
+                'keywords' => [],
+                'params' => [
+                    'fc' => 'module',
+                    'module' => $this->name,
+                ]
+            ];
 
-        return $return;
+        }
 
+        return $output;
 
     }
 
